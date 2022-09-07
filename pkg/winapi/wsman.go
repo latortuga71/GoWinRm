@@ -88,6 +88,39 @@ func WSManReceiveShellOutput(shell WSMAN_SHELL_HANDLE, command WSMAN_COMMAND_HAN
 	return nil
 }
 
+func WSManCloseOperation(operation WSMAN_OPERATION_HANDLE, flags uint32) error {
+	res, _, err := pWSManCloseOperation.Call(uintptr(operation), uintptr(flags))
+	if res != 0 {
+		return err
+	}
+	return nil
+}
+func WSManCloseCommand(command WSMAN_COMMAND_HANDLE, flags uint32, async *WSMAN_SHELL_ASYNC) error {
+	pWSManCloseCommand.Call(uintptr(command), uintptr(flags), uintptr(unsafe.Pointer(&async)))
+	return nil
+}
+
+func WSManCloseShell(shell WSMAN_SHELL_HANDLE, flags uint32, async *WSMAN_SHELL_ASYNC) error {
+	pWSManCloseShell.Call(uintptr(shell), uintptr(flags), uintptr(unsafe.Pointer(async)))
+	return nil
+}
+
+func WSManCloseSession(session WSMAN_SESSION_HANDLE, flags uint32) error {
+	res, _, err := pWSManCloseSession.Call(uintptr(session), uintptr(flags))
+	if res != 0 {
+		return err
+	}
+	return nil
+}
+
+func WSManDeinitialize(apiHandle WSMAN_API_HANDLE, flags uint32) error {
+	res, _, err := pWSManDeinitialize.Call(uintptr(apiHandle), uintptr(flags))
+	if res != 0 {
+		return err
+	}
+	return nil
+}
+
 type WSManSessionOption uint32
 type WSManDataType uint32
 type WSMAN_SHELL_STARTUP_INFO struct{}
